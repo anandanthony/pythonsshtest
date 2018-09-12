@@ -13,6 +13,14 @@ WORKDIR ${HOME_SITE}
 
 
 RUN apt-get update -y
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libpq-dev \
+        openssh-server \
+        vim \
+        curl \
+        wget \
+        tcptraceroute
 RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y --no-install-recommends build-essential
 RUN apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y --no-install-recommends unixodbc
