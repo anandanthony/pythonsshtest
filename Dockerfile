@@ -20,7 +20,7 @@ RUN apt-get update \
         vim \
         curl \
         wget \
-        tcptraceroute
+        tcptraceroute \
 RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y --no-install-recommends build-essential
 RUN apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y --no-install-recommends unixodbc
@@ -39,22 +39,15 @@ RUN chmod 554 /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so
 EXPOSE 80 2222
 
 # setup SSH
-RUN mkdir -p /home/LogFiles \
-     && echo "root:Docker!" | chpasswd \
-     && echo "cd /home" >> /etc/bash.bashrc 
+RUN   apt update \
+     && apt install -y --no-install-recommends openssh-server \
+	  && echo "root:Docker!!!" | chpasswd
 
 COPY sshd_config /etc/ssh/
 RUN mkdir -p /opt/startup
 COPY init_container.sh /opt/startup/init_container.sh
 
-# setup default site
-RUN mkdir /opt/defaultsite
-COPY app.py /opt/defaultsite
 
 # configure startup
 RUN chmod -R 777 /opt/startup
-COPY entrypoint.py /usr/local/bin
-
 ENTRYPOINT ["/opt/startup/init_container.sh"]
-
-
