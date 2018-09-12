@@ -41,8 +41,7 @@ COPY init_container.sh /opt/startup/init_container.sh
 
 # setup default site
 RUN mkdir /opt/defaultsite
-COPY hostingstart.html /opt/defaultsite
-COPY application.py /opt/defaultsite
+COPY app.py /opt/defaultsite
 
 # configure startup
 RUN chmod -R 777 /opt/startup
