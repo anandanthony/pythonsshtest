@@ -31,17 +31,23 @@ RUN chmod 554 /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so
 EXPOSE 80 2222
 
 # setup SSH
-RUN   apt update \
-     && apt install -y --no-install-recommends openssh-server \
-	  && echo "root:Docker!!!" | chpasswd
+RUN mkdir -p /home/LogFiles \
+     && echo "root:Docker!" | chpasswd \
+     && echo "cd /home" >> /etc/bash.bashrc 
 
 COPY sshd_config /etc/ssh/
 RUN mkdir -p /opt/startup
 COPY init_container.sh /opt/startup/init_container.sh
 
+# setup default site
+RUN mkdir /opt/defaultsite
+COPY hostingstart.html /opt/defaultsite
+COPY application.py /opt/defaultsite
 
 # configure startup
 RUN chmod -R 777 /opt/startup
+COPY entrypoint.py /usr/local/bin
+
 ENTRYPOINT ["/opt/startup/init_container.sh"]
 
 
