@@ -20,7 +20,7 @@ RUN apt-get update \
         vim \
         curl \
         wget \
-        tcptraceroute \
+        tcptraceroute
 RUN apt-get install -y --no-install-recommends apt-utils
 RUN apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y --no-install-recommends build-essential
 RUN apt-get -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" install -y --no-install-recommends unixodbc
