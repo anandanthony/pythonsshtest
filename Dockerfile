@@ -39,9 +39,9 @@ RUN chmod 554 /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so
 EXPOSE 80 2222
 
 # setup SSH
-RUN   apt update \
-     && apt install -y --no-install-recommends openssh-server \
-	  && echo "root:Docker!!!" | chpasswd
+RUN mkdir -p /home/LogFiles \
+     && echo "root:Docker!" | chpasswd \
+     && echo "cd /home" >> /etc/bash.bashrc 
 
 COPY sshd_config /etc/ssh/
 RUN mkdir -p /opt/startup
