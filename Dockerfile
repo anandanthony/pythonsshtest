@@ -38,6 +38,8 @@ RUN chmod 554 /usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so
 
 EXPOSE 80 2222
 
+HEALTHCHECK --interval=5s --timeout=5s CMD curl --fail http://localhost:80 || exit 1
+
 # setup SSH
 RUN mkdir -p /home/LogFiles \
      && echo "root:Docker!" | chpasswd \
